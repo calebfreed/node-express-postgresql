@@ -37,6 +37,15 @@ function listTotalWeightByProduct() {
     .groupBy("product_title", "product_sku");
 }
 
+function read(product_id) {
+  return knex("products as p")
+    .join("products_categories as pc", "p.product_id", "pc.product_id")
+    .join("categories as c", "pc.category_id", "c.category_id")
+    .select("p.*", "c.*")
+    .where({ "p.product_id": product_id })
+    .first();
+}
+
 module.exports = {
   list,
   read,
